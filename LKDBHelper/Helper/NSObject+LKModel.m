@@ -770,7 +770,8 @@ NSString * const kLKDBPropertyTypeObjcClass = @"Class";
             LKModelInfos *superInfos = [[self superclass] getModelInfos];
             for (NSInteger i = 0; i < superInfos.count; i++) {
                 LKDBProperty *db_p = [superInfos objectWithIndex:i];
-                if (db_p.propertyName && db_p.propertyType && [db_p.propertyName isEqualToString:@"rowid"] == NO) {
+                // REMARK: allow UserCalculate property
+                if ([db_p.propertyName isEqualToString:@"rowid"] == NO) {
 //                    [pronames addObject:db_p.propertyName];
 //                    [protypes addObject:db_p.propertyType];
                     [superProperties addObject:db_p];
