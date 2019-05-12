@@ -190,6 +190,8 @@ static char LKModelBase_Key_Inserting;
         returnValue = filename;
     } else if ([value isKindOfClass:[NSURL class]]) {
         returnValue = [value absoluteString];
+    } else if (class_isMetaClass(object_getClass(value))) { // if a class object
+        returnValue = NSStringFromClass(value);
     } else {
         if ([value isKindOfClass:[NSArray class]]) {
             returnValue = [self db_jsonObjectFromArray:value];
@@ -204,13 +206,21 @@ static char LKModelBase_Key_Inserting;
     return returnValue;
 }
 
+NSString * const kLKDBPropertyTypeObjcClass = @"Class";
 ///set
 - (void)modelSetValue:(LKDBProperty *)property value:(NSString *)value
 {
+    id modelValue = nil;
+    if ([property.propertyType isEqualToString:kLKDBPropertyTypeObjcClass]) {
+        modelValue = NSClassFromString(value);
+        [self setValue:modelValue forKey:property.propertyName];
+        return;
+    }
+    
+    
     ///参试获取属性的Class
     Class columnClass = NSClassFromString(property.propertyType);
 
-    id modelValue = nil;
 
     if (columnClass == nil) {
         ///当找不到 class 时，就是 基础类型 int,float CGRect 之类的
@@ -732,9 +742,17 @@ static char LKModelBase_Key_Inserting;
     if (infos == nil) {
         NSMutableArray *pronames = [NSMutableArray array];
         NSMutableArray *protypes = [NSMutableArray array];
-        NSDictionary *keymapping = [self getTableMapping];
+        
+        //REMARK: ONLY call `+getTableMapping` if truely overrided
+        NSString *superClsName = NSStringFromClass([self superclass]);
+        IMP implSelf = class_getMethodImplementation(objc_getMetaClass(className.UTF8String), @selector(getTableMapping));
+        IMP implSuper = class_getMethodImplementation(objc_getMetaClass(superClsName.UTF8String), @selector(getTableMapping));
+        BOOL overridedMapping = implSelf != implSuper;
+        
+        NSDictionary *keymapping = overridedMapping ? [self getTableMapping] : nil;
 
         if ([self isContainSelf] && self != [NSObject class]) {
+            // REMARK: ONLY return self-ivar-list now
             [self getSelfPropertys:pronames protypes:protypes];
         }
 
@@ -746,18 +764,25 @@ static char LKModelBase_Key_Inserting;
                 pkArray = [NSArray arrayWithObject:pk];
             }
         }
+        
+        NSMutableArray *superProperties = [NSMutableArray array];
         if ([self isContainParent] && [self superclass] != [NSObject class]) {
             LKModelInfos *superInfos = [[self superclass] getModelInfos];
             for (NSInteger i = 0; i < superInfos.count; i++) {
                 LKDBProperty *db_p = [superInfos objectWithIndex:i];
                 if (db_p.propertyName && db_p.propertyType && [db_p.propertyName isEqualToString:@"rowid"] == NO) {
-                    [pronames addObject:db_p.propertyName];
-                    [protypes addObject:db_p.propertyType];
+//                    [pronames addObject:db_p.propertyName];
+//                    [protypes addObject:db_p.propertyType];
+                    [superProperties addObject:db_p];
                 }
             }
         }
-        if (pronames.count > 0) {
+        if (pronames.count > 0 || superProperties.count > 0) {
             infos = [[LKModelInfos alloc] initWithKeyMapping:keymapping propertyNames:pronames propertyType:protypes primaryKeys:pkArray];
+            // MARK: merge `LKDBProperty` for SQL_Binding / SQL_UserCalculate
+            for (LKDBProperty *db_p in superProperties) {
+                [infos addDBProperty:db_p];
+            }
         } else {
             infos = [[LKModelInfos alloc] init];
         }
@@ -825,7 +850,7 @@ static char LKModelBase_Key_Inserting;
          */
 
         NSString *propertyClassName = nil;
-        if ([propertyType hasPrefix:@"T@"]) {
+        if ([propertyType hasPrefix:@"T@"]) { // NSObject*
 
             NSRange range = [propertyType rangeOfString:@","];
             if (range.location > 4 && range.location <= propertyType.length) {
@@ -838,7 +863,7 @@ static char LKModelBase_Key_Inserting;
                     }
                 }
             }
-        } else if ([propertyType hasPrefix:@"T{"]) {
+        } else if ([propertyType hasPrefix:@"T{"]) { // [NSObject] or struct
             NSRange range = [propertyType rangeOfString:@"="];
             if (range.location > 2 && range.location <= propertyType.length) {
                 range = NSMakeRange(2, range.location - 2);
@@ -858,6 +883,8 @@ static char LKModelBase_Key_Inserting;
                 propertyClassName = @"char";
             } else if ([propertyType hasPrefix:@"ts"]) {
                 propertyClassName = @"short";
+            } else if ([propertyType hasPrefix:@"t#"]) { // A class object (Class)
+                propertyClassName = kLKDBPropertyTypeObjcClass;
             }
         }
 
@@ -870,9 +897,11 @@ static char LKModelBase_Key_Inserting;
         [protypes addObject:propertyClassName];
     }
     free(properties);
-    if ([self isContainParent] && [self superclass] != [NSObject class]) {
-        [[self superclass] getSelfPropertys:pronames protypes:protypes];
-    }
+
+// REMARK: 去掉影响 Mapping 逻辑的冗余递归，`+getModelInfos` 本身会递归调用自己.
+//    if ([self isContainParent] && [self superclass] != [NSObject class]) {
+//        [[self superclass] getSelfPropertys:pronames protypes:protypes];
+//    }
 }
 
 #pragma mark - log all property

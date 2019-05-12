@@ -35,6 +35,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithDBName:(NSString *)dbname;
 - (void)setDBName:(NSString *)fileName;
 
++ (NSString *)getDBPathWithDBName:(NSString *)dbName;
+@property (nonatomic, copy, readonly) NSString *dbPath;
+
 /**
  *	@brief  path of database file
  *  refer:  FMDatabase.h  + (instancetype)databaseWithPath:(NSString *)inPath;
@@ -275,9 +278,11 @@ NS_ASSUME_NONNULL_BEGIN
  *	@param 	modelClass      entity class
  *	@param 	columns         UIImage or NSData Column Name
  */
+// TODO: make a pending-delete list, then async remove files later
 + (void)clearNoneImage:(Class)modelClass columns:(NSArray<NSString *> *)columns;
 + (void)clearNoneData:(Class)modelClass columns:(NSArray<NSString *> *)columns;
 
+- (id)modelValueWithProperty:(LKDBProperty *)property model:(NSObject *)model;
 @end
 
 @interface LKDBHelper (Deprecated_Nonfunctional)

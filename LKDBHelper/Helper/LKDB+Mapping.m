@@ -215,10 +215,8 @@
     }
     return self;
 }
-- (void)addDBPropertyWithType:(NSString *)type cname:(NSString *)column_name ctype:(NSString *)ctype pname:(NSString *)pname ptype:(NSString *)ptype
-{
-    LKDBProperty *db_property = [[LKDBProperty alloc] initWithType:type cname:column_name ctype:ctype pname:pname ptype:ptype];
 
+- (void)addDBProperty:(LKDBProperty *)db_property {
     if (db_property.propertyName) {
         _proNameDic[db_property.propertyName] = db_property;
     }
@@ -226,6 +224,13 @@
         _sqlNameDic[db_property.sqlColumnName] = db_property;
     }
 }
+
+- (void)addDBPropertyWithType:(NSString *)type cname:(NSString *)column_name ctype:(NSString *)ctype pname:(NSString *)pname ptype:(NSString *)ptype
+{
+    LKDBProperty *db_property = [[LKDBProperty alloc] initWithType:type cname:column_name ctype:ctype pname:pname ptype:ptype];
+    [self addDBProperty:db_property];
+}
+
 - (NSArray *)primaryKeys
 {
     return _primaryKeys;

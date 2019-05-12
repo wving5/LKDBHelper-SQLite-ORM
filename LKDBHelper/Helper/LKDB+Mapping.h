@@ -74,6 +74,9 @@ NS_ASSUME_NONNULL_BEGIN
             propertyType:(NSArray *)propertyType
              primaryKeys:(nullable NSArray *)primaryKeys;
 
+// REMARK: 必须紧随 init 后调用
+- (void)addDBProperty:(LKDBProperty *)db_property;
+
 @property (nonatomic, readonly) NSUInteger count;
 @property (nullable, nonatomic, readonly) NSArray *primaryKeys;
 
