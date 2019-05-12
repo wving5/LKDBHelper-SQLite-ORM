@@ -8,7 +8,87 @@
 
 #import "LKTestModels.h"
 
+NSString * const kLKTestBaseUserCalcWritingSuffix = @"_BaseUserCalc";
+NSString * const kLKTestSuperUserCalcWritingSuffix = @"_SuperUserCalc";
+
+@implementation LKTestBase
++ (NSDictionary *)getTableMapping
+{
+    return @{
+             @"baseInherit" : LKSQL_Mapping_Inherit,
+             @"baseUsrCalc" : LKSQL_Mapping_UserCalculate,
+             @"Mapped_baseA" : @"baseA",
+             @"Mapped_baseB" : @"baseB",
+             };
+}
+
+-(id)userGetValueForModel:(LKDBProperty *)property
+{
+    if([property.sqlColumnName isEqualToString:@"baseUsrCalc"])
+    {
+        if(self.baseUsrCalc == nil) return  @"baseNil";
+        if (NO == [self.baseUsrCalc hasSuffix:kLKTestBaseUserCalcWritingSuffix]) {
+            return [self.baseUsrCalc stringByAppendingString:kLKTestBaseUserCalcWritingSuffix];
+        } else {
+            return self.baseUsrCalc;
+        }
+    }
+    return nil;
+}
+
+-(void)userSetValueForModel:(LKDBProperty *)property value:(id)value
+{
+    if([property.sqlColumnName isEqualToString:@"baseUsrCalc"])
+    {
+        self.baseUsrCalc = value ?: @"nil";
+    }
+}
+@end
+
+@implementation LKTestSuper
++ (BOOL)isContainParent
+{
+    return YES;
+}
+
++ (NSDictionary *)getTableMapping
+{
+    return @{
+             @"superInherit" : LKSQL_Mapping_Inherit,
+             @"superUsrCalc" : LKSQL_Mapping_UserCalculate,
+             @"Mapped_superA" : @"superA",
+             @"Mapped_superB" : @"superB",
+             };
+}
+
+-(id)userGetValueForModel:(LKDBProperty *)property
+{
+    if([property.sqlColumnName isEqualToString:@"superUsrCalc"])
+    {
+        if(self.superUsrCalc == nil) return  @"baseNil";
+        if (NO == [self.superUsrCalc hasSuffix:kLKTestSuperUserCalcWritingSuffix]) {
+            return [self.superUsrCalc stringByAppendingString:kLKTestSuperUserCalcWritingSuffix];
+        } else {
+            return self.superUsrCalc;
+        }
+    }
+    return nil;
+}
+
+-(void)userSetValueForModel:(LKDBProperty *)property value:(id)value
+{
+    if([property.sqlColumnName isEqualToString:@"superUsrCalc"])
+    {
+        self.superUsrCalc = value ?: @"nil";
+    }
+}
+@end
+
 @implementation LKTest
++ (BOOL)isContainParent
+{
+    return YES;
+}
 
 //重载选择 使用的LKDBHelper
 +(LKDBHelper *)getUsingLKDBHelper
@@ -85,8 +165,9 @@
             return @"";
         [LKTestForeign insertToDB:self.address];
         return @(self.address.addid);
+    } else {
+        return [super userGetValueForModel:property];
     }
-    return nil;
 }
 // 重载    从数据库中  获取的值   经过自己处理 再保存
 -(void)userSetValueForModel:(LKDBProperty *)property value:(id)value
@@ -99,6 +180,8 @@
         
         if(array.count>0)
             self.address = [array objectAtIndex:0];
+    } else {
+        [super userSetValueForModel:property value:value];
     }
 }
 
@@ -121,19 +204,19 @@
 //手动or自动 绑定sql列
 +(NSDictionary *)getTableMapping
 {
-    return nil;
-//    return @{@"name":LKSQL_Mapping_Inherit,
-//             @"MyAge":@"age",
-//             @"img":LKSQL_Mapping_Inherit,
-//             @"MyDate":@"date",
-//             
-//             // version 2 after add
-//             @"color":LKSQL_Mapping_Inherit,
-//             
-//             //version 3 after add
-//             @"address":LKSQL_Mapping_UserCalculate,
-//             @"error":LKSQL_Mapping_Inherit
-//             };
+//    return nil;
+    return @{@"name":LKSQL_Mapping_Inherit,
+             @"MyAge":@"age",
+             @"img":LKSQL_Mapping_Inherit,
+             @"MyDate":@"date",
+             
+             // version 2 after add
+             @"color":LKSQL_Mapping_Inherit,
+             
+             //version 3 after add
+             @"address":LKSQL_Mapping_UserCalculate,
+             @"error":LKSQL_Mapping_Inherit
+             };
 }
 //主键
 +(NSString *)getPrimaryKey

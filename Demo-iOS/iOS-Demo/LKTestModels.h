@@ -9,10 +9,28 @@
 #import <UIKit/UIKit.h>
 #import "LKDBHelper.h"
 
-@interface LKTestForeignSuper : NSObject
+
+@interface LKTestBase : NSObject
+@property(copy,nonatomic) NSString* baseInherit;
+@property(copy,nonatomic) NSString* baseUsrCalc;
+@property(copy,nonatomic) NSString* baseA;
+@property(copy,nonatomic) NSString* baseB;
+@end
+
+
+@interface LKTestSuper : LKTestBase
+@property(copy,nonatomic) NSString* superInherit;
+@property(copy,nonatomic) NSString* superUsrCalc;
+@property(copy,nonatomic) NSString* superA;
+@property(copy,nonatomic) NSString* superB;
+@end
+
+
+@interface LKTestForeignSuper : LKTestSuper
 @property(copy,nonatomic)NSString* address;
 @property int postcode;
 @end
+
 
 @class LKTest;
 @interface LKTestForeign : LKTestForeignSuper
@@ -23,8 +41,7 @@
 @end
 
 
-
-@interface LKTest : NSObject
+@interface LKTest : LKTestSuper
 
 @property(strong,nonatomic) LKTestForeign* nestModel;
 

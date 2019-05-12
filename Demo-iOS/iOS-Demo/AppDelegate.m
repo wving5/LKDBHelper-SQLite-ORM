@@ -54,6 +54,7 @@
 }
 -(void)test
 {
+    NSLog(@"DBPath: %@", [LKTest getUsingLKDBHelper].dbPath);
     addText(@"示例 开始 example start \n\n");
     
     ///获取 LKTest 类使用的 LKDBHelper
@@ -79,7 +80,7 @@
     foreign.postcode  = 123341;
     foreign.addid = 213214;
     
-    test.address = foreign;
+    test.address = nil;//foreign;
     
     
     ///复杂对象 complex object
