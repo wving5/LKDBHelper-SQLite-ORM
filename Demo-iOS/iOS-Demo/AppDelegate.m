@@ -74,6 +74,11 @@
     test.name = @"zhan san";
     test.age = 16;
     test.url = [NSURL URLWithString:@"http://url"];
+    // 基类属性
+    test.baseArrayM = @[@1,@2,@3].mutableCopy;
+    test.baseDictionaryM = @{@"A":@1, @"B":@2, @"C":@3}.mutableCopy;
+    test.baseA = @"baseA_Value";
+    test.baseC_NOT_included = @"SHOULD_NOT_BE_STORED";
     
     //外键  foreign key
     LKTestForeign* foreign = [[LKTestForeign alloc]init];
@@ -160,7 +165,10 @@
     ///同步搜索 执行sql语句 把结果变为LKTest对象
     ///Synchronous search executes the SQL statement put the results into a LKTest object
     searchResultArray = [globalHelper searchWithSQL:@"select * from @t" toClass:[LKTest class]];
-    for (id obj in searchResultArray) {
+    for (LKTest* obj in searchResultArray) {
+        NSAssert([obj.baseArrayM isKindOfClass:[NSMutableArray class]], @"`baseArrayM` MUST be mutable");
+        NSAssert([obj.baseDictionaryM isKindOfClass:[NSMutableDictionary class]], @"`baseDictionaryM` MUST be mutable");
+        
         addText(@"%@",[obj printAllPropertys]);
     }
     

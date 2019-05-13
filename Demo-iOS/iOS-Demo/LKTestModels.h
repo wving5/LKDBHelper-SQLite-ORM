@@ -15,6 +15,10 @@
 @property(copy,nonatomic) NSString* baseUsrCalc;
 @property(copy,nonatomic) NSString* baseA;
 @property(copy,nonatomic) NSString* baseB;
+@property(copy,nonatomic) NSString* baseC_NOT_included;
+
+@property(strong, nonatomic) NSMutableArray *baseArrayM;
+@property(strong, nonatomic) NSMutableDictionary *baseDictionaryM;
 @end
 
 

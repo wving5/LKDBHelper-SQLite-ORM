@@ -19,6 +19,8 @@ NSString * const kLKTestSuperUserCalcWritingSuffix = @"_SuperUserCalc";
              @"baseUsrCalc" : LKSQL_Mapping_UserCalculate,
              @"Mapped_baseA" : @"baseA",
              @"Mapped_baseB" : @"baseB",
+             @"baseArrayM" : LKSQL_Mapping_Inherit,
+             @"baseDictionaryM" : LKSQL_Mapping_Inherit,
              };
 }
 
