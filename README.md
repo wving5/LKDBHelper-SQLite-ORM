@@ -4,10 +4,6 @@ LKDBHelper
 this is sqlite ORM (an automatic database operation) <br>
 thread-safe and not afraid of recursive deadlock
 
-QQ群号 113767274  有什么问题或者改进的地方大家一起讨论
-
-简书：不定时更新  [http://www.jianshu.com/users/376b950a20ec](http://www.jianshu.com/users/376b950a20ec/latest_articles)
-
 # Big Upgrade 2.0
 
 Supported  __NSArray__,__NSDictionary__, __ModelClass__, __NSNumber__, __NSString__, __NSDate__, __NSData__, __UIColor__, __UIImage__, __CGRect__, __CGPoint__, __CGSize__, __NSRange__, __int__,__char__,__float__, __double__, __long__.. attribute to insert and select automation.
@@ -271,7 +267,8 @@ Contribution guidelines
 Contributors
 =======
 
-Author: Jianghuai Li
+Author: Jianghuai Li [Blog](http://www.jianshu.com/users/376b950a20ec/latest_articles)
+
 
 Contributors: waiting for you to join
 
