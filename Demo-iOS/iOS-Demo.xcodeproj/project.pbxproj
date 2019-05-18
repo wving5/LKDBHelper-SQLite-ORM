@@ -14,6 +14,7 @@
 		366B23441CFD8A63006743C0 /* LKTestModels.m in Sources */ = {isa = PBXBuildFile; fileRef = 366B23421CFD8A63006743C0 /* LKTestModels.m */; };
 		366B23461CFD8CEB006743C0 /* Snip20130620_6.png in Resources */ = {isa = PBXBuildFile; fileRef = 366B23451CFD8CEB006743C0 /* Snip20130620_6.png */; };
 		6BCE93B2428F3E6E81B59859 /* libPods-iOS-Demo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A05ED3193E536326FFEB6E6B /* libPods-iOS-Demo.a */; };
+		B6617501229035B900285B6E /* FMDatabase+Debug.m in Sources */ = {isa = PBXBuildFile; fileRef = B66174FF229035B900285B6E /* FMDatabase+Debug.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,8 @@
 		366B23451CFD8CEB006743C0 /* Snip20130620_6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Snip20130620_6.png; path = ../../screenshot/Snip20130620_6.png; sourceTree = "<group>"; };
 		A05ED3193E536326FFEB6E6B /* libPods-iOS-Demo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-iOS-Demo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC46E909280B6824E099951C /* Pods-iOS-Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS-Demo.release.xcconfig"; path = "Pods/Target Support Files/Pods-iOS-Demo/Pods-iOS-Demo.release.xcconfig"; sourceTree = "<group>"; };
+		B66174FF229035B900285B6E /* FMDatabase+Debug.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FMDatabase+Debug.m"; sourceTree = "<group>"; };
+		B6617500229035B900285B6E /* FMDatabase+Debug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FMDatabase+Debug.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +71,8 @@
 				366B23451CFD8CEB006743C0 /* Snip20130620_6.png */,
 				366B23431CFD8A63006743C0 /* LKTestModels.h */,
 				366B23421CFD8A63006743C0 /* LKTestModels.m */,
+				B6617500229035B900285B6E /* FMDatabase+Debug.h */,
+				B66174FF229035B900285B6E /* FMDatabase+Debug.m */,
 				366B232E1CFD87F5006743C0 /* AppDelegate.h */,
 				366B232F1CFD87F5006743C0 /* AppDelegate.m */,
 				366B23371CFD87F5006743C0 /* Assets.xcassets */,
@@ -133,7 +138,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0800;
-				ORGANIZATIONNAME = ljh;
+				ORGANIZATIONNAME = Mars;
 				TargetAttributes = {
 					366B23271CFD87F5006743C0 = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -230,6 +235,7 @@
 				366B23441CFD8A63006743C0 /* LKTestModels.m in Sources */,
 				366B23301CFD87F5006743C0 /* AppDelegate.m in Sources */,
 				366B232D1CFD87F5006743C0 /* main.m in Sources */,
+				B6617501229035B900285B6E /* FMDatabase+Debug.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
