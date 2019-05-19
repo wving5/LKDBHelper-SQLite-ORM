@@ -261,8 +261,9 @@ static BOOL LKDBNullIsEmptyString = NO;
         if (self.bindingQueue == nil) {
             [self openDB];
             if (_encryptionKey.length > 0) {
+                NSString *encryptionKey = _encryptionKey;
                 [self.bindingQueue inDatabase:^(FMDatabase *db) {
-                    [db setKey:_encryptionKey];
+                    [db setKey:encryptionKey];
                 }];
             }
         }
@@ -496,7 +497,7 @@ static BOOL LKDBNullIsEmptyString = NO;
     __block BOOL success = NO;
     if (self.bindingQueue && _encryptionKey.length > 0) {
         [self executeDB:^(FMDatabase *db) {
-            success = [db setKey:_encryptionKey];
+            success = [db setKey:key];
         }];
     }
     [self.threadLock unlock];
@@ -509,7 +510,7 @@ static BOOL LKDBNullIsEmptyString = NO;
     __block BOOL success = NO;
     if (self.bindingQueue && _encryptionKey.length > 0) {
         [self executeDB:^(FMDatabase *db) {
-            success = [db rekey:_encryptionKey];
+            success = [db rekey:key];
         }];
     }
     [self.threadLock unlock];
