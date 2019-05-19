@@ -3,12 +3,9 @@
 #import "LKDBQueryBuilder.h"
 
 @interface LKDBQueryBuilder(){
-
     BOOL isChanged;
-    
-    NSMutableString *  _Nonnull query;
+    NSMutableString * query;
 }
-
 @end
 
 @implementation LKDBQueryBuilder
@@ -21,31 +18,33 @@
     return self;
 }
 
--(LKDBQueryBuilder *  _Nonnull )append:(NSString *  _Nonnull )object{
+- (LKDBQueryBuilder * )append:(NSString * )object{
     [query appendString:object];
     return self;
 }
--(LKDBQueryBuilder *  _Nonnull )appendSpace{
+
+- (LKDBQueryBuilder * )appendSpace{
     [self append:@" "];
     return self;
 }
--(LKDBQueryBuilder *  _Nonnull )appendSpaceSeparated:(NSString *  _Nonnull )object{
+
+- (LKDBQueryBuilder * )appendSpaceSeparated:(NSString * )object{
     [[self append:object] appendSpace];
     return self;
 }
--(LKDBQueryBuilder *  _Nonnull )appendParenthesisEnclosed:(NSString *  _Nonnull )object{
+
+- (LKDBQueryBuilder * )appendParenthesisEnclosed:(NSString * )object{
     [[[self append:@"("] append:object] append:@")"];
     return self;
 }
 
--(LKDBQueryBuilder *  _Nonnull )appendOptional:(NSString *  _Nonnull )object{
+- (LKDBQueryBuilder * )appendOptional:(NSString * )object{
     if(object)
         [self append:object];
     return self;
 }
 
--(NSString *  _Nonnull )join:(NSString *  _Nonnull )delimiter tokens:(NSArray *  _Nonnull )tokens{
-    
+- (NSString * )join:(NSString * )delimiter tokens:(NSArray * )tokens{
     NSMutableString *sb =[NSMutableString new];
     BOOL firstTime = true;
     for (NSString *token in  tokens) {
@@ -59,32 +58,31 @@
     return sb;
 }
 
-
--(LKDBQueryBuilder *  _Nonnull )appendArray:(NSArray *  _Nonnull )objects{
+- (LKDBQueryBuilder * )appendArray:(NSArray * )objects{
     return [self append:[self join:@", " tokens:objects]];
 }
 
--(LKDBQueryBuilder *  _Nonnull )appendQualifier:(NSString *  _Nonnull )name value:(NSString *  _Nonnull )value{
+- (LKDBQueryBuilder * )appendQualifier:(NSString * )name value:(NSString * )value{
     if(value.length>0){
         if(name){
             [self append:name];
         }
         [self appendSpaceSeparated:value];
     }
-    
     return self;
 }
 
--(LKDBQueryBuilder *  _Nonnull )appendNotEmpty:(NSString *  _Nonnull )object{
+- (LKDBQueryBuilder * )appendNotEmpty:(NSString * )object{
     if(object.length>0)
         [self append:object];
     return self;
 }
 
--(NSString *  _Nonnull )toString{
+- (NSString * )toString{
     return [self getQuery];
 }
--(NSString *  _Nonnull )getQuery{
+
+- (NSString * )getQuery{
     return query;
 }
 

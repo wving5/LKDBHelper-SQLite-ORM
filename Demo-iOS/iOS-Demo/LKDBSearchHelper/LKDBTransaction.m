@@ -4,41 +4,33 @@
 #import "LKDBHelper.h"
 
 
-typedef enum {
+typedef NS_ENUM(NSUInteger, LKDBPersistenceObjectAction) {
     LKDBPersistenceObjectActionInsert = 0,
-    LKDBPersistenceObjectActionUpdate   = 1,
+    LKDBPersistenceObjectActionUpdate = 1,
     LKDBPersistenceObjectActionRemove = 2,
-} LKDBPersistenceObjectAction;
+};
 
 
 @interface LKDBTransactionData : NSObject
-
-@property (nonatomic,strong) LKDBPersistenceObject * _Nonnull object;
-
+@property (nonatomic,strong) LKDBPersistenceObject *object;
 @property (nonatomic,assign) LKDBPersistenceObjectAction action;
 
-+(LKDBTransactionData * _Nonnull )init:(LKDBPersistenceObject * _Nonnull )object action:(LKDBPersistenceObjectAction)action;
-
++ (LKDBTransactionData *)init:(LKDBPersistenceObject *)object action:(LKDBPersistenceObjectAction)action;
 @end
 
 @implementation LKDBTransactionData
-
-+(LKDBTransactionData * _Nonnull )init:(LKDBPersistenceObject * _Nonnull )object action:(LKDBPersistenceObjectAction)action{
-    LKDBTransactionData * _Nonnull data = [LKDBTransactionData new];
++ (LKDBTransactionData *)init:(LKDBPersistenceObject *)object action:(LKDBPersistenceObjectAction)action{
+    LKDBTransactionData *data = [LKDBTransactionData new];
     data.object = object;
     data.action = action;
     return data;
 }
-
 @end
 
 
-@interface LKDBTransaction(){
-    
-    NSMutableArray * _Nonnull actionDatas;
-
+@interface LKDBTransaction() {
+    NSMutableArray *actionDatas;
 }
-
 @end
 
 @implementation LKDBTransaction
@@ -50,65 +42,53 @@ typedef enum {
     }
     return self;
 }
--(LKDBTransaction * _Nonnull )updateAll:(NSArray<LKDBPersistenceObject *> * _Nonnull )datas{
+
+- (LKDBTransaction *)updateAll:(NSArray<LKDBPersistenceObject *> *)datas{
     for (LKDBPersistenceObject *object in datas) {
-        
-        LKDBTransactionData * _Nonnull data =[LKDBTransactionData init:object action:LKDBPersistenceObjectActionUpdate];
-        
-        [actionDatas addObject:data];
-    }
-    
-    
-    return self;
-}
--(LKDBTransaction * _Nonnull )insertAll:(NSArray<LKDBPersistenceObject *> * _Nonnull )datas{
-    for (LKDBPersistenceObject *object in datas) {
-        
-        LKDBTransactionData * _Nonnull data =[LKDBTransactionData init:object action:LKDBPersistenceObjectActionInsert];
-        
-        [actionDatas addObject:data];
-    }
-    return self;
-}
--(LKDBTransaction * _Nonnull )deleteAll:(NSArray<LKDBPersistenceObject *> * _Nonnull )datas{
-    for (LKDBPersistenceObject *object in datas) {
-        
-        LKDBTransactionData * _Nonnull data =[LKDBTransactionData init:object action:LKDBPersistenceObjectActionRemove];
-        
+        LKDBTransactionData *data =[LKDBTransactionData init:object action:LKDBPersistenceObjectActionUpdate];
         [actionDatas addObject:data];
     }
     return self;
 }
 
+- (LKDBTransaction *)insertAll:(NSArray<LKDBPersistenceObject *> *)datas{
+    for (LKDBPersistenceObject *object in datas) {
+        LKDBTransactionData *data =[LKDBTransactionData init:object action:LKDBPersistenceObjectActionInsert];
+        [actionDatas addObject:data];
+    }
+    return self;
+}
 
--(LKDBTransaction * _Nonnull )update:(LKDBPersistenceObject * _Nonnull )object{
-    
-    
-    LKDBTransactionData * _Nonnull data =[LKDBTransactionData init:object action:LKDBPersistenceObjectActionUpdate];
-    
-    [actionDatas addObject:data];
+- (LKDBTransaction *)deleteAll:(NSArray<LKDBPersistenceObject *> *)datas{
+    for (LKDBPersistenceObject *object in datas) {
+        LKDBTransactionData *data =[LKDBTransactionData init:object action:LKDBPersistenceObjectActionRemove];
+        [actionDatas addObject:data];
+    }
     return self;
 }
--(LKDBTransaction * _Nonnull )insert:(LKDBPersistenceObject * _Nonnull )object{
-    
-    LKDBTransactionData * _Nonnull data =[LKDBTransactionData init:object action:LKDBPersistenceObjectActionInsert];
-    
-    [actionDatas addObject:data];
-    return self;
-}
--(LKDBTransaction * _Nonnull )delete:(LKDBPersistenceObject * _Nonnull )object{
-    
-    LKDBTransactionData * _Nonnull data =[LKDBTransactionData init:object action:LKDBPersistenceObjectActionRemove];
-    
+
+- (LKDBTransaction *)update:(LKDBPersistenceObject *)object{
+    LKDBTransactionData *data =[LKDBTransactionData init:object action:LKDBPersistenceObjectActionUpdate];
     [actionDatas addObject:data];
     return self;
 }
 
--(void)execute{
+- (LKDBTransaction *)insert:(LKDBPersistenceObject *)object{
+    LKDBTransactionData *data =[LKDBTransactionData init:object action:LKDBPersistenceObjectActionInsert];
+    [actionDatas addObject:data];
+    return self;
+}
+
+- (LKDBTransaction *)delete:(LKDBPersistenceObject *)object{
+    LKDBTransactionData *data =[LKDBTransactionData init:object action:LKDBPersistenceObjectActionRemove];
+    [actionDatas addObject:data];
+    return self;
+}
+
+- (void)execute{
     [[LKDBHelper getUsingLKDBHelper] executeForTransaction:^BOOL(LKDBHelper *helper) {
         @try {
-            for (LKDBTransactionData * _Nonnull object in actionDatas) {
-                
+            for (LKDBTransactionData *object in actionDatas) {
                 if(object.action==LKDBPersistenceObjectActionInsert)
                     [object.object saveToDB];
                 
@@ -118,7 +98,6 @@ typedef enum {
                 if(object.action==LKDBPersistenceObjectActionRemove)
                     [object.object deleteToDB];
             }
-             
             return true;
         } @catch (NSException *exception) {
              return false;
@@ -126,11 +105,10 @@ typedef enum {
     }];
 }
 
-- (void)executeForTransaction:(BOOL (^_Nullable)(void))block{
+- (void)executeForTransaction:(BOOL (^)(void))block{
     [[LKDBHelper getUsingLKDBHelper] executeForTransaction:^BOOL(LKDBHelper *helper) {
         return block();
     }];
 }
-
 
 @end

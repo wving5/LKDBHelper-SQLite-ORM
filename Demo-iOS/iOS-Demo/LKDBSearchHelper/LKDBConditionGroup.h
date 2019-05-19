@@ -6,39 +6,36 @@
 
 @interface LKDBConditionGroup : LKDBSQLCondition
 
++ (instancetype)clause;
++ (instancetype)nonGroupingClause;
+- (instancetype)setUseParenthesis:(BOOL)_useParenthesis;
+- (instancetype)setAllCommaSeparated:(BOOL)_allCommaSeparated;
+- (void)setPreviousSeparator:(NSString * )_separator;
 
-+(instancetype _Nonnull)clause;
-+(instancetype _Nonnull)nonGroupingClause;
--(instancetype _Nonnull)setUseParenthesis:(BOOL)_useParenthesis;
--(instancetype _Nonnull)setAllCommaSeparated:(BOOL)_allCommaSeparated;
--(void)setPreviousSeparator:(NSString *  _Nonnull)_separator;
+- (LKDBConditionGroup *)innerAndConditionGroup;
+- (LKDBConditionGroup *)innerOrConditionGroup;
 
-
--(LKDBConditionGroup * _Nonnull)innerAndConditionGroup;
-
--(LKDBConditionGroup * _Nonnull)innerOrConditionGroup;
-
--(instancetype _Nonnull)operator:(NSString *  _Nonnull)_separator sqlCondition:(LKDBSQLCondition * _Nonnull)sqlCondition;
+- (instancetype)operator:(NSString *)_separator sqlCondition:(LKDBSQLCondition *)sqlCondition;
 
 
--(instancetype _Nonnull)where:(LKDBSQLCondition *  _Nonnull)sqlCondition;
+- (instancetype)where:(LKDBSQLCondition * )sqlCondition;
 
--(instancetype _Nonnull)or:(LKDBSQLCondition *  _Nonnull)sqlCondition;
+- (instancetype)or:(LKDBSQLCondition * )sqlCondition;
 
--(instancetype _Nonnull)and:(LKDBSQLCondition *  _Nonnull)sqlCondition;
+- (instancetype)and:(LKDBSQLCondition * )sqlCondition;
 
--(instancetype _Nonnull)andAll:(NSArray<LKDBSQLCondition *> * _Nonnull)sqlConditions;
+- (instancetype)andAll:(NSArray<LKDBSQLCondition *> *)sqlConditions;
 
--(instancetype _Nonnull)orAll:(NSArray<LKDBSQLCondition *> *  _Nonnull)sqlConditions;
+- (instancetype)orAll:(NSArray<LKDBSQLCondition *> * )sqlConditions;
 
--(void)appendConditionToQuery:(LKDBQueryBuilder *  _Nonnull)queryBuilder;
+- (void)appendConditionToQuery:(LKDBQueryBuilder * )queryBuilder;
 
--(NSString * _Nonnull)getQuery;
+- (NSString *)getQuery;
 
--(NSString * _Nonnull)toString;
+- (NSString *)toString;
 
--(int)size;
+- (int)size;
 
--(NSArray<LKDBSQLCondition *> * _Nonnull)getConditions;
+- (NSArray<LKDBSQLCondition *> *)getConditions;
 
 @end

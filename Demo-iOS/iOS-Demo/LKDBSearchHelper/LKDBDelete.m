@@ -6,47 +6,34 @@
 #import "LKDBHelper.h"
 
 
-
 @interface LKDBHelper(LKDBDelete)
- 
-
-- (BOOL)executeSQL:(NSString*  _Nonnull )sql;
-
-
+- (BOOL)executeSQL:(NSString*)sql;
 @end
 
 @implementation LKDBHelper(LKDBDelete)
-
-- (BOOL)executeSQL:(NSString*  _Nonnull )sql
+- (BOOL)executeSQL:(NSString*)sql
 {
     return [self executeSQL:sql arguments:nil];
 }
 @end
 
 @interface LKDBDelete(){
-    
-    
-    LKDBConditionGroup *  _Nonnull conditionGroup;
+    LKDBConditionGroup *conditionGroup;
     
     int limit ;
     int offset ;
     
-    NSMutableArray<NSString *> *  _Nonnull groupByList;
-    NSMutableArray<NSString *> *  _Nonnull orderByList;
-    
+    NSMutableArray<NSString *> *groupByList;
+    NSMutableArray<NSString *> *orderByList;
     
     Class _fromtable;
-    
     BOOL selectCount;
-    
-    LKDBHelper *  _Nonnull helper;
+    LKDBHelper *helper;
 }
-
 @end
 
 @implementation LKDBDelete
--(instancetype _Nonnull)init{
-    
+- (instancetype)init{
     self = [super init];
     if (self) {
         conditionGroup =[LKDBConditionGroup clause];
@@ -61,72 +48,67 @@
     }
     return self;
 }
--(instancetype _Nonnull)from:(Class)fromtable{
+
+- (instancetype)from:(Class)fromtable{
     _fromtable =fromtable;
     return self;
 }
  
--(instancetype _Nonnull)Where:(LKDBSQLCondition *  _Nonnull )sqlCondition{
+- (instancetype)Where:(LKDBSQLCondition *)sqlCondition{
     [conditionGroup operator:nil sqlCondition:sqlCondition];
     return self;
 }
 
--(instancetype _Nonnull)or:(LKDBSQLCondition *  _Nonnull )sqlCondition{
+- (instancetype)or:(LKDBSQLCondition *)sqlCondition{
     [conditionGroup or:sqlCondition];
     return self;
 }
--(instancetype _Nonnull)and:(LKDBSQLCondition *  _Nonnull )sqlCondition{
+
+- (instancetype)and:(LKDBSQLCondition *)sqlCondition{
     [conditionGroup and:sqlCondition];
     return self;
 } 
 
--(instancetype _Nonnull)andAll:(NSArray<LKDBSQLCondition *> *  _Nonnull )sqlConditions{
+- (instancetype)andAll:(NSArray<LKDBSQLCondition *> *)sqlConditions{
     [conditionGroup andAll:sqlConditions];
     return self;
 }
 
--(instancetype _Nonnull)orAll:(NSArray<LKDBSQLCondition *> *  _Nonnull )sqlConditions{
+- (instancetype)orAll:(NSArray<LKDBSQLCondition *> *)sqlConditions{
     [conditionGroup orAll:sqlConditions];
     return self;
 }
- 
 
--(LKDBConditionGroup *  _Nonnull )innerAndConditionGroup{
+- (LKDBConditionGroup *)innerAndConditionGroup{
     return [conditionGroup innerAndConditionGroup];
 }
 
--(LKDBConditionGroup *  _Nonnull )orConditionGroup{
+- (LKDBConditionGroup *)innerOrConditionGroup{
     return [conditionGroup innerOrConditionGroup];
 }
 
--(NSString *  _Nonnull )executeSQL{
-    
+- (NSString *)executeSQL{
     NSMutableString *sql =[NSMutableString new];
     [sql appendString:@"DELETE FROM "];
-    
     [sql appendString:[_fromtable getTableName]];
-    
     [sql appendString:@" "];
     
     NSString *conditionQuery = [conditionGroup getQuery];
-    
     if(conditionQuery.length>0){
-        
         [sql appendString:@"WHERE "];
     }
-    
     [sql appendString:conditionQuery];
     
     NSLog(@"sql:%@",sql);
     return sql;
 }
--(NSString *  _Nonnull )getQuery{
+
+- (NSString *)getQuery{
     return [self executeSQL];
 }
 
--(BOOL)execute{
+- (BOOL)execute{
     return [helper  executeSQL:[self executeSQL]];
- 
 }
  
 @end
