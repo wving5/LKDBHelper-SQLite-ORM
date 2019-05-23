@@ -9,9 +9,11 @@
 + (LKDBSelect *)select{
     return [[LKDBSelect alloc] init:nil];
 }
+
 + (LKDBSelect *)select:(NSArray *)propNames{
     return [[LKDBSelect alloc] init:propNames];
 }
+
 + (LKDBDelete *)delete{
     return [[LKDBDelete alloc] init];
 }
@@ -19,9 +21,10 @@
 + (LKDBTransaction *)transaction{
     return [[LKDBTransaction alloc] init];
 }
+
+#pragma mark - LKDB wrapper
 + (void)executeForTransaction:(BOOL (^)(void))block{
     [[LKDBTransaction new] executeForTransaction:block];
-     
 }
 
 + (int)update:(LKDBPersistenceObject *)object{
@@ -39,7 +42,6 @@
 + (void)dropTable:(Class)clazz{
     [LKDBSQLite dropTable:clazz helper:[LKDBHelper getUsingLKDBHelper]];
 }
- 
 
 + (int)update:(LKDBPersistenceObject *)object helper:(LKDBHelper *)helper{
     [helper updateToDB:object where:@{@"rowid":[NSNumber numberWithInteger:object.rowid]}];

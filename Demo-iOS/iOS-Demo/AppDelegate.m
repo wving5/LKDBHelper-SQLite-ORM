@@ -16,11 +16,11 @@
 @end
 
 @implementation AppDelegate
--(void)scrollViewDidScroll:(UIScrollView *)scrollView
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     [self.window endEditing:YES];
 }
--(void)add:(NSString*)txt
+- (void)add:(NSString*)txt
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         [_ms appendString:@"\n"];
@@ -52,7 +52,8 @@
     });
     return YES;
 }
--(void)test
+
+- (void)test
 {
     NSLog(@"DBPath: %@", [LKTest getUsingLKDBHelper].dbPath);
     addText(@"示例 开始 example start \n\n");

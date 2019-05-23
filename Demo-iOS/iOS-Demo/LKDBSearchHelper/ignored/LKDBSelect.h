@@ -1,9 +1,11 @@
  
 
 #import <Foundation/Foundation.h> 
-#import "LKDBConditionGroup.h"
-#import "LKDBSQLCondition.h"
+#import "LKSQLCompositeCondition.h"
+#import "LKSQLCondition.h"
 #import "LKDBPersistenceObject.h"
+
+// TODO: refactor BAD practice
 
 extern NSString*  LKDB_Distinct(NSString * name);
 
@@ -12,30 +14,22 @@ extern NSString*  LKDB_Distinct(NSString * name);
 - (instancetype)init:(NSArray * _Nullable)propNames;
 
 - (instancetype)from:(__unsafe_unretained Class )fromtable;
- 
-- (instancetype)Where:(LKDBSQLCondition *)sqlCondition;
-- (instancetype)and:(LKDBSQLCondition *)sqlCondition;
-- (instancetype)or:(LKDBSQLCondition *)sqlCondition;
-
-//查询条件包含括号,会构造一个新的 LKDBConditionGroup,小括号包含 
-- (LKDBConditionGroup *)innerAndConditionGroup;
-
-- (LKDBConditionGroup *)innerOrConditionGroup;
- 
 - (instancetype)orderBy:(NSString * )orderBy ascending:(BOOL)ascending;
 - (instancetype)groupBy:(NSString * )groupBy;
-
 - (instancetype)offset:(int)offset;
 - (instancetype)limit:(int)limit;
 
+/* LKSQLCondition wrapper */
+- (instancetype)where:(LKSQLCondition *)sqlCondition;
+
+/* SQL translate */
 - ( NSString * )getQuery;
 
+/* LKDB wrapper */
 - (NSArray<LKDBPersistenceObject *> * )queryList;
 - (id)querySingle;
-
 - (NSArray * )queryOriginalList;
 - (id )queryOriginaSingle;
-
 - (int)queryCount;
 
 @end

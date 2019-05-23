@@ -10,7 +10,6 @@ typedef NS_ENUM(NSUInteger, LKDBPersistenceObjectAction) {
     LKDBPersistenceObjectActionRemove = 2,
 };
 
-
 @interface LKDBTransactionData : NSObject
 @property (nonatomic,strong) LKDBPersistenceObject *object;
 @property (nonatomic,assign) LKDBPersistenceObjectAction action;
@@ -29,7 +28,7 @@ typedef NS_ENUM(NSUInteger, LKDBPersistenceObjectAction) {
 
 
 @interface LKDBTransaction() {
-    NSMutableArray *actionDatas;
+    NSMutableArray <LKDBTransactionData *> *actionDatas;
 }
 @end
 
@@ -38,11 +37,12 @@ typedef NS_ENUM(NSUInteger, LKDBPersistenceObjectAction) {
 {
     self = [super init];
     if (self) {
-        actionDatas =[[NSMutableArray alloc] initWithCapacity:0];
+        actionDatas = [NSMutableArray array];
     }
     return self;
 }
 
+// MARK:- DB ops wrapper
 - (LKDBTransaction *)updateAll:(NSArray<LKDBPersistenceObject *> *)datas{
     for (LKDBPersistenceObject *object in datas) {
         LKDBTransactionData *data =[LKDBTransactionData init:object action:LKDBPersistenceObjectActionUpdate];
@@ -85,6 +85,7 @@ typedef NS_ENUM(NSUInteger, LKDBPersistenceObjectAction) {
     return self;
 }
 
+// MARK:- excute
 - (void)execute{
     [[LKDBHelper getUsingLKDBHelper] executeForTransaction:^BOOL(LKDBHelper *helper) {
         @try {
@@ -98,9 +99,9 @@ typedef NS_ENUM(NSUInteger, LKDBPersistenceObjectAction) {
                 if(object.action==LKDBPersistenceObjectActionRemove)
                     [object.object deleteToDB];
             }
-            return true;
+            return YES;
         } @catch (NSException *exception) {
-             return false;
+             return NO;
         }
     }];
 }

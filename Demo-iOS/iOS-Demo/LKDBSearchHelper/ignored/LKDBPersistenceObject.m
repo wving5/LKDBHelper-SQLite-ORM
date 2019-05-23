@@ -20,7 +20,9 @@
 }
 
 + (id)queryByRowId:(NSInteger)rowid{
-    return [[[[LKDBSQLite select:nil] from:[self class]] Where:LKDB_Equal_Int(@"rowid", rowid)] querySingle];
+    // TODO: mixed function-calling style is so ugly
+    return [[[[LKDBSQLite select:nil] from:[self class]] where:LKSQLCompositeCondition.clause.where.eq(@"row",@(rowid))]
+            querySingle];
 }
 
 + (NSArray *)queryList{

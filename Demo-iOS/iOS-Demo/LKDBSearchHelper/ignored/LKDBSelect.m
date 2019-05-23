@@ -1,27 +1,24 @@
- 
-#import "LKDBSelect.h"
-#import "LKDBConditionGroup.h"
-#import "LKDBQueryBuilder.h"
 
+
+#import "LKDBSelect.h"
+#import "LKSQLCompositeCondition.h"
 #import "LKDBHelper.h" 
 
 extern NSString* LKDB_Distinct(NSString *name){
     return [@"DISTINCT " stringByAppendingString:name];
 }
+
+//MARK:- define LKDB API for ORM query result
 @interface LKDBHelper(LKDBSelect)
-
 - (NSMutableArray * )executeQuery:(NSString * )sql toClass:(Class)modelClass;
-
-
 - (NSMutableArray * )executeQuery:(NSString * )sql;
-
-
+// declare LKDB private method
 - (NSMutableArray * )executeResult:(FMResultSet * )set Class:(Class)modelClass tableName:(NSString * _Nullable )tableName;
-
 @end
 
 @implementation LKDBHelper(LKDBSelect)
 
+// mapping result to Model
 - (NSMutableArray * )executeQuery:(NSString * )executeSQL toClass:(Class)modelClass
 {
     __block NSMutableArray* results = nil;
@@ -33,9 +30,9 @@ extern NSString* LKDB_Distinct(NSString *name){
     return results;
 }
 
+// mapping result to NSDictionary
 - (NSMutableArray * )executeQuery:(NSString * )executeSQL
 {
-    
     __block NSMutableArray* results = nil;
     [self executeDB:^(FMDatabase *db) {
         FMResultSet* set = [db executeQuery:executeSQL];
@@ -50,24 +47,23 @@ extern NSString* LKDB_Distinct(NSString *name){
     NSMutableArray*  array = [NSMutableArray arrayWithCapacity:0];
     int columnCount = [set columnCount];
     while ([set next]) {
-        
-        NSMutableDictionary*  bindingModel = [[NSMutableDictionary alloc]init];
-        
+        NSMutableDictionary* bindingModel = [[NSMutableDictionary alloc] init];
         for (int i=0; i<columnCount; i++) {
-            
             NSString*  sqlName = [set columnNameForIndex:i];
             NSObject*  sqlValue = [set objectForColumnIndex:i];
-            
             [bindingModel setObject:sqlValue forKey:sqlName];
         }
         [array addObject:bindingModel];
     }
     return array;
 }
+
 @end
 
+
+
 @interface LKDBSelect(){
-    LKDBConditionGroup * conditionGroup;
+    LKSQLCompositeCondition * conditionGroup;
     
     int limit ;
     int offset ;
@@ -83,64 +79,29 @@ extern NSString* LKDB_Distinct(NSString *name){
 @end
 
 @implementation LKDBSelect
+
+// MARK:- DB cretieria
 - (instancetype)init:(NSArray *)propName{
-    
-    self = [super init];
-    if (self) {
-        conditionGroup =[LKDBConditionGroup clause];
-        
-        groupByList =[NSMutableArray new];
-        orderByList =[NSMutableArray new];
-        
-        propNames =[NSMutableArray new];
+    if (self = [super init]) {
+        conditionGroup = [LKSQLCompositeCondition clause];
+        groupByList = [NSMutableArray array];
+        orderByList = [NSMutableArray array];
+        propNames = [NSMutableArray array];
         
         if(propName)
             [propNames addObjectsFromArray:propName];
         
         limit = -1;
         offset = -1;
+        // FIXME: bad practice
         helper = [LKDBHelper getUsingLKDBHelper];
-        
     }
     return self;
 }
 
 - (instancetype)from:(Class)fromtable{
-    _fromtable =fromtable;
+    _fromtable = fromtable;
     return self;
-}
- 
-- (instancetype)Where:(LKDBSQLCondition * )sqlCondition{
-    [conditionGroup operator:nil sqlCondition:sqlCondition];
-    return self;
-}
-
-- (instancetype)or:(LKDBSQLCondition *)sqlCondition{
-    [conditionGroup or:sqlCondition];
-    return self;
-}
-
-- (instancetype)and:(LKDBSQLCondition *)sqlCondition{
-    [conditionGroup and:sqlCondition];
-    return self;
-} 
-
-- (instancetype)andAll:(NSArray<LKDBSQLCondition *> * )sqlConditions{
-    [conditionGroup andAll:sqlConditions];
-    return self;
-}
-
-- (instancetype)orAll:(NSArray<LKDBSQLCondition *> * )sqlConditions{
-    [conditionGroup orAll:sqlConditions];
-    return self;
-}
-
-- (LKDBConditionGroup * )innerAndConditionGroup{
-    return [conditionGroup innerAndConditionGroup];
-}
-
-- (LKDBConditionGroup * )innerOrConditionGroup{
-    return [conditionGroup innerOrConditionGroup];
 }
 
 - (instancetype)orderBy:(NSString * )orderBy ascending:(BOOL)ascending{
@@ -148,10 +109,10 @@ extern NSString* LKDB_Distinct(NSString *name){
         [orderByList addObject:[NSString stringWithFormat:@"%@ ASC",orderBy]];
     }else{
         [orderByList addObject:[NSString stringWithFormat:@"%@ DESC",orderBy]];
-    } 
+    }
     return self;
 }
- 
+
 - (instancetype)groupBy:(NSString * )groupBy{
     [groupByList addObject:groupBy];
     return self;
@@ -164,28 +125,36 @@ extern NSString* LKDB_Distinct(NSString *name){
 - (instancetype)limit:(int)_limit{
     limit = _limit;
     return self;
-} 
+}
 
+// MARK: LKDBConditiongGroup wrapper
+- (instancetype)where:(LKSQLCondition * )sqlCondition{
+    conditionGroup.expr(sqlCondition);
+    return self;
+}
+
+// MARK:- Translate `SELECT`
 - (NSString * )executeSQL{
-    NSString * select = @"*";
+    NSString * colunms = @"*";
     if(propNames.count>0){
-        select = [propNames componentsJoinedByString:@","];
+        colunms = [propNames componentsJoinedByString:@","];
     }
     
-    NSMutableString * sql =[NSMutableString new];
+    NSMutableString * sql = [NSMutableString string];
     [sql appendString:@"SELECT "];
     if(selectCount){
         [sql appendString:@"COUNT("];
-        [sql appendString:select];
+        [sql appendString:colunms];
         [sql appendString:@") as count"];
     }else{
-        [sql appendString:select];
+        [sql appendString:colunms];
     }
+    
     [sql appendString:@" FROM "];
     [sql appendString:[_fromtable getTableName]];
     [sql appendString:@" "];
     
-    NSString *conditionQuery = [conditionGroup getQuery];
+    NSString *conditionQuery = [conditionGroup toString];
     if(conditionQuery.length>0){
         [sql appendString:@"WHERE "];
     }
@@ -201,13 +170,14 @@ extern NSString* LKDB_Distinct(NSString *name){
         [sql appendString:[orderByList componentsJoinedByString:@","]];
     }
     
-    if(offset!=-1&&limit!=-1){
+    // TODO: offset ?????
+    if(offset != -1 && limit != -1){
         [sql appendFormat:@" LIMIT %d,%d",offset,limit];
-    }else if (limit!=-1){
+    }else if (limit != -1){
         [sql appendFormat:@" LIMIT %d",limit];
     }
     
-    NSLog(@"sql:%@",sql);
+    NSLog(@"## [SqlBuilder] sql:\n\n%@\n\n.",sql);
     return sql;
 }
 
@@ -215,18 +185,19 @@ extern NSString* LKDB_Distinct(NSString *name){
     return [self executeSQL];
 }
 
+// MARK:- LKDB wrapper
 - (NSMutableArray * )queryList{
-    return [helper  executeQuery:[self executeSQL] toClass:_fromtable];
+    return [helper executeQuery:[self executeSQL] toClass:_fromtable];
 }
 
 - (NSMutableArray * )queryOriginalList{
-    return [helper  executeQuery:[self executeSQL]];
+    return [helper executeQuery:[self executeSQL]];
 }
 
 - (id)querySingle{
     limit = 1;
     
-    NSMutableArray *result =  [helper  executeQuery:[self executeSQL] toClass:_fromtable];
+    NSMutableArray *result =  [helper executeQuery:[self executeSQL] toClass:_fromtable];
     if(result.count>0)
         return result.firstObject;
     
@@ -236,7 +207,7 @@ extern NSString* LKDB_Distinct(NSString *name){
 - (id)queryOriginaSingle{
     limit = 1;
     
-    NSMutableArray *result =  [helper  executeQuery:[self executeSQL]];
+    NSMutableArray *result =  [helper executeQuery:[self executeSQL]];
     if(result.count>0)
         return result.firstObject;
     
@@ -245,12 +216,12 @@ extern NSString* LKDB_Distinct(NSString *name){
 
 - (int)queryCount{
     selectCount =YES;
-    NSArray *counts = [helper  executeQuery:[self executeSQL]];
-    int _count=0;
-    if([counts count]>0){
-        _count=(int)((NSNumber *)[((NSDictionary *)[counts firstObject]) objectForKey:@"count"]).intValue;
+    NSArray *results = [helper executeQuery:[self executeSQL]];
+    int count = 0;
+    if([results count] > 0){
+        count = (int)[[[results firstObject] objectForKey:@"count"] intValue];
     }
-    return _count;
+    return count;
 }
 
 @end
