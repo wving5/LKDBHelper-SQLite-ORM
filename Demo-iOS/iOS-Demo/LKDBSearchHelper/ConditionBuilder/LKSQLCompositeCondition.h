@@ -3,7 +3,9 @@
 #import <Foundation/Foundation.h>
 #import "LKSQLCondition.h"
 
-//MARK: Multi Condition Builder
+/* Multi Condition Builder */
+
+#define _SQLWhere LKSQLCompositeCondition.clause
 
 @interface LKSQLCompositeCondition : LKSQLCondition
 
@@ -26,8 +28,8 @@
 - (LKSQLCompositeCondition *(^)(NSString *, id))gte;
 - (LKSQLCompositeCondition *(^)(NSString *, id))like;
 - (LKSQLCompositeCondition *(^)(NSString *, id))isNot;
-- (LKSQLCompositeCondition *(^)(NSString *, NSArray<id>*))inStrs;
-- (LKSQLCompositeCondition *(^)(NSString *, NSArray<id>*))inNums;
+- (LKSQLCompositeCondition *(^)(NSString *, NSArray*))inStrs;
+- (LKSQLCompositeCondition *(^)(NSString *, NSArray*))inNums;
 
 
 - (NSString *)toString;

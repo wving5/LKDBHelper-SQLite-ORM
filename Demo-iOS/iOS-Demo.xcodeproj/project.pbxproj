@@ -15,13 +15,12 @@
 		366B23461CFD8CEB006743C0 /* Snip20130620_6.png in Resources */ = {isa = PBXBuildFile; fileRef = 366B23451CFD8CEB006743C0 /* Snip20130620_6.png */; };
 		6BCE93B2428F3E6E81B59859 /* libPods-iOS-Demo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A05ED3193E536326FFEB6E6B /* libPods-iOS-Demo.a */; };
 		B61E1DF32296A3BF00D34103 /* LKDBSQLBuilderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = B61E1DF22296A3BF00D34103 /* LKDBSQLBuilderTest.m */; };
+		B61E1DF62297DBFD00D34103 /* LKSQLCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = B61E1DF52297DBFD00D34103 /* LKSQLCommand.m */; };
 		B6617501229035B900285B6E /* FMDatabase+Debug.m in Sources */ = {isa = PBXBuildFile; fileRef = B66174FF229035B900285B6E /* FMDatabase+Debug.m */; };
 		B661751A22903FA000285B6E /* LKDBTransaction.m in Sources */ = {isa = PBXBuildFile; fileRef = B661750A22903FA000285B6E /* LKDBTransaction.m */; };
-		B661751B22903FA000285B6E /* LKDBSQLite.m in Sources */ = {isa = PBXBuildFile; fileRef = B661750B22903FA000285B6E /* LKDBSQLite.m */; };
-		B661751C22903FA000285B6E /* LKDBPersistenceObject.m in Sources */ = {isa = PBXBuildFile; fileRef = B661750E22903FA000285B6E /* LKDBPersistenceObject.m */; };
-		B661751D22903FA000285B6E /* LKDBSelect.m in Sources */ = {isa = PBXBuildFile; fileRef = B661750F22903FA000285B6E /* LKDBSelect.m */; };
+		B661751D22903FA000285B6E /* LKSQLSelect.m in Sources */ = {isa = PBXBuildFile; fileRef = B661750F22903FA000285B6E /* LKSQLSelect.m */; };
 		B661751E22903FA000285B6E /* LKDBStringBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = B661751322903FA000285B6E /* LKDBStringBuilder.m */; };
-		B661751F22903FA000285B6E /* LKDBDelete.m in Sources */ = {isa = PBXBuildFile; fileRef = B661751522903FA000285B6E /* LKDBDelete.m */; };
+		B661751F22903FA000285B6E /* LKSQLDelete.m in Sources */ = {isa = PBXBuildFile; fileRef = B661751522903FA000285B6E /* LKSQLDelete.m */; };
 		B661752022903FA000285B6E /* LKSQLCompositeCondition.m in Sources */ = {isa = PBXBuildFile; fileRef = B661751622903FA000285B6E /* LKSQLCompositeCondition.m */; };
 		B661752122903FA000285B6E /* LKSQLCondition.m in Sources */ = {isa = PBXBuildFile; fileRef = B661751922903FA000285B6E /* LKSQLCondition.m */; };
 /* End PBXBuildFile section */
@@ -42,24 +41,22 @@
 		AC46E909280B6824E099951C /* Pods-iOS-Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS-Demo.release.xcconfig"; path = "Pods/Target Support Files/Pods-iOS-Demo/Pods-iOS-Demo.release.xcconfig"; sourceTree = "<group>"; };
 		B61E1DF12296A3BF00D34103 /* LKDBSQLBuilderTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LKDBSQLBuilderTest.h; sourceTree = "<group>"; };
 		B61E1DF22296A3BF00D34103 /* LKDBSQLBuilderTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LKDBSQLBuilderTest.m; sourceTree = "<group>"; };
+		B61E1DF42297DBFD00D34103 /* LKSQLCommand.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LKSQLCommand.h; sourceTree = "<group>"; };
+		B61E1DF52297DBFD00D34103 /* LKSQLCommand.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LKSQLCommand.m; sourceTree = "<group>"; };
 		B66174FF229035B900285B6E /* FMDatabase+Debug.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FMDatabase+Debug.m"; sourceTree = "<group>"; };
 		B6617500229035B900285B6E /* FMDatabase+Debug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FMDatabase+Debug.h"; sourceTree = "<group>"; };
 		B661750922903FA000285B6E /* LKDBStringBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LKDBStringBuilder.h; sourceTree = "<group>"; };
 		B661750A22903FA000285B6E /* LKDBTransaction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LKDBTransaction.m; sourceTree = "<group>"; };
-		B661750B22903FA000285B6E /* LKDBSQLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LKDBSQLite.m; sourceTree = "<group>"; };
-		B661750C22903FA000285B6E /* LKDBDelete.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LKDBDelete.h; sourceTree = "<group>"; };
+		B661750C22903FA000285B6E /* LKSQLDelete.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LKSQLDelete.h; sourceTree = "<group>"; };
 		B661750D22903FA000285B6E /* LKSQLCondition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LKSQLCondition.h; sourceTree = "<group>"; };
-		B661750E22903FA000285B6E /* LKDBPersistenceObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LKDBPersistenceObject.m; sourceTree = "<group>"; };
-		B661750F22903FA000285B6E /* LKDBSelect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LKDBSelect.m; sourceTree = "<group>"; };
+		B661750F22903FA000285B6E /* LKSQLSelect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LKSQLSelect.m; sourceTree = "<group>"; };
 		B661751022903FA000285B6E /* LKSQLCompositeCondition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LKSQLCompositeCondition.h; sourceTree = "<group>"; };
-		B661751122903FA000285B6E /* LKDBSearchHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LKDBSearchHelper.h; sourceTree = "<group>"; };
+		B661751122903FA000285B6E /* LKSQLBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LKSQLBuilder.h; sourceTree = "<group>"; };
 		B661751222903FA000285B6E /* LKDBTransaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LKDBTransaction.h; sourceTree = "<group>"; };
 		B661751322903FA000285B6E /* LKDBStringBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LKDBStringBuilder.m; sourceTree = "<group>"; };
-		B661751422903FA000285B6E /* LKDBSQLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LKDBSQLite.h; sourceTree = "<group>"; };
-		B661751522903FA000285B6E /* LKDBDelete.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LKDBDelete.m; sourceTree = "<group>"; };
+		B661751522903FA000285B6E /* LKSQLDelete.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LKSQLDelete.m; sourceTree = "<group>"; };
 		B661751622903FA000285B6E /* LKSQLCompositeCondition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LKSQLCompositeCondition.m; sourceTree = "<group>"; };
-		B661751722903FA000285B6E /* LKDBSelect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LKDBSelect.h; sourceTree = "<group>"; };
-		B661751822903FA000285B6E /* LKDBPersistenceObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LKDBPersistenceObject.h; sourceTree = "<group>"; };
+		B661751722903FA000285B6E /* LKSQLSelect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LKSQLSelect.h; sourceTree = "<group>"; };
 		B661751922903FA000285B6E /* LKSQLCondition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LKSQLCondition.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -137,36 +134,42 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		B61E1DED22962B5500D34103 /* ignored */ = {
+		B61E1DED22962B5500D34103 /* Commands */ = {
 			isa = PBXGroup;
 			children = (
-				B661751722903FA000285B6E /* LKDBSelect.h */,
-				B661750F22903FA000285B6E /* LKDBSelect.m */,
-				B661750C22903FA000285B6E /* LKDBDelete.h */,
-				B661751522903FA000285B6E /* LKDBDelete.m */,
+				B61E1DF42297DBFD00D34103 /* LKSQLCommand.h */,
+				B61E1DF52297DBFD00D34103 /* LKSQLCommand.m */,
+				B661751722903FA000285B6E /* LKSQLSelect.h */,
+				B661750F22903FA000285B6E /* LKSQLSelect.m */,
+				B661750C22903FA000285B6E /* LKSQLDelete.h */,
+				B661751522903FA000285B6E /* LKSQLDelete.m */,
 				B661751222903FA000285B6E /* LKDBTransaction.h */,
 				B661750A22903FA000285B6E /* LKDBTransaction.m */,
-				B661751122903FA000285B6E /* LKDBSearchHelper.h */,
-				B661751822903FA000285B6E /* LKDBPersistenceObject.h */,
-				B661750E22903FA000285B6E /* LKDBPersistenceObject.m */,
-				B661751422903FA000285B6E /* LKDBSQLite.h */,
-				B661750B22903FA000285B6E /* LKDBSQLite.m */,
 			);
-			path = ignored;
+			path = Commands;
 			sourceTree = "<group>";
 		};
-		B661750822903FA000285B6E /* LKDBSearchHelper */ = {
+		B61E1DF72297EF1A00D34103 /* ConditionBuilder */ = {
 			isa = PBXGroup;
 			children = (
-				B61E1DED22962B5500D34103 /* ignored */,
-				B61E1DF12296A3BF00D34103 /* LKDBSQLBuilderTest.h */,
-				B61E1DF22296A3BF00D34103 /* LKDBSQLBuilderTest.m */,
 				B661750922903FA000285B6E /* LKDBStringBuilder.h */,
 				B661751322903FA000285B6E /* LKDBStringBuilder.m */,
 				B661750D22903FA000285B6E /* LKSQLCondition.h */,
 				B661751922903FA000285B6E /* LKSQLCondition.m */,
 				B661751022903FA000285B6E /* LKSQLCompositeCondition.h */,
 				B661751622903FA000285B6E /* LKSQLCompositeCondition.m */,
+			);
+			path = ConditionBuilder;
+			sourceTree = "<group>";
+		};
+		B661750822903FA000285B6E /* LKDBSearchHelper */ = {
+			isa = PBXGroup;
+			children = (
+				B661751122903FA000285B6E /* LKSQLBuilder.h */,
+				B61E1DF12296A3BF00D34103 /* LKDBSQLBuilderTest.h */,
+				B61E1DF22296A3BF00D34103 /* LKDBSQLBuilderTest.m */,
+				B61E1DED22962B5500D34103 /* Commands */,
+				B61E1DF72297EF1A00D34103 /* ConditionBuilder */,
 			);
 			path = LKDBSearchHelper;
 			sourceTree = "<group>";
@@ -295,17 +298,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B661751C22903FA000285B6E /* LKDBPersistenceObject.m in Sources */,
 				B661751E22903FA000285B6E /* LKDBStringBuilder.m in Sources */,
 				366B23441CFD8A63006743C0 /* LKTestModels.m in Sources */,
 				B661751A22903FA000285B6E /* LKDBTransaction.m in Sources */,
 				366B23301CFD87F5006743C0 /* AppDelegate.m in Sources */,
 				B661752122903FA000285B6E /* LKSQLCondition.m in Sources */,
-				B661751D22903FA000285B6E /* LKDBSelect.m in Sources */,
+				B661751D22903FA000285B6E /* LKSQLSelect.m in Sources */,
 				366B232D1CFD87F5006743C0 /* main.m in Sources */,
 				B661752022903FA000285B6E /* LKSQLCompositeCondition.m in Sources */,
-				B661751F22903FA000285B6E /* LKDBDelete.m in Sources */,
-				B661751B22903FA000285B6E /* LKDBSQLite.m in Sources */,
+				B61E1DF62297DBFD00D34103 /* LKSQLCommand.m in Sources */,
+				B661751F22903FA000285B6E /* LKSQLDelete.m in Sources */,
 				B61E1DF32296A3BF00D34103 /* LKDBSQLBuilderTest.m in Sources */,
 				B6617501229035B900285B6E /* FMDatabase+Debug.m in Sources */,
 			);

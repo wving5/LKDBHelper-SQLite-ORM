@@ -221,15 +221,15 @@ NSString * const kLKTestSuperUserCalcWritingSuffix = @"_SuperUserCalc";
              };
 }
 //主键
-+(NSString *)getPrimaryKey
-{
-    return @"name";
-}
+//+(NSString *)getPrimaryKey
+//{
+//    return @"name";
+//}
 ///复合主键  这个优先级最高
-+(NSArray *)getPrimaryKeyUnionArray
-{
-    return @[@"name",@"MyAge"];
-}
+//+(NSArray *)getPrimaryKeyUnionArray
+//{
+//    return @[@"name",@"MyAge"];
+//}
 //表名
 +(NSString *)getTableName
 {

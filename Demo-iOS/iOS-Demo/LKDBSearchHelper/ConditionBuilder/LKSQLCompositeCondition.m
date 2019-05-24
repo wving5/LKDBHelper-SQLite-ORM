@@ -36,7 +36,7 @@
     return [LKSQLCompositeCondition new];
 }
 
-// MARK:- Chaining SQL criteria
+// MARK:- SQL criteria Chaining
 - (LKSQLCompositeCondition *)where {return self;}
 
 - (LKSQLCompositeCondition *)or
@@ -129,7 +129,7 @@
     };
 }
 
-- (LKSQLCompositeCondition *(^)(NSString *, NSArray<id>*))inStrs
+- (LKSQLCompositeCondition *(^)(NSString *, NSArray*))inStrs
 {
     return ^id(NSString *colunm, NSArray<NSString *>* values) {
         LKSQLCondition *sqlCondition = [LKSQLCondition condition:colunm inStrValues:values];
@@ -138,7 +138,7 @@
     };
 }
 
-- (LKSQLCompositeCondition *(^)(NSString *, NSArray<id>*))inNums
+- (LKSQLCompositeCondition *(^)(NSString *, NSArray*))inNums
 {
     return ^id(NSString *colunm, NSArray<NSNumber *>* values) {
         LKSQLCondition *sqlCondition = [LKSQLCondition condition:colunm inNumValues:values];

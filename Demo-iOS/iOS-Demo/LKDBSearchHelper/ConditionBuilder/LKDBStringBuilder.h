@@ -2,7 +2,8 @@
 
 #import <Foundation/Foundation.h>
 
-//MARK: Just a string builder wrapper
+/* String builder */
+
 @interface LKDBStringBuilder : NSObject
 
 - (LKDBStringBuilder *)append:(NSString *)object;

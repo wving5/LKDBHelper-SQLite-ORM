@@ -6,8 +6,9 @@
 //
 
 #import "LKDBSQLBuilderTest.h"
-#import "LKSQLCompositeCondition.h"
+#import "LKSQLBuilder.h"
 #import <UIKit/UIKit.h>
+#import "LKTestModels.h"
 
 
 @implementation LKDBSQLBuilderTest
@@ -25,7 +26,7 @@
     
     DEBUGLOG(@"### RUNNING TEST <%@>\n=================", self);
     
-    // TEST single condition
+    //MARK: TEST single condition
     DEBUGLOG(@"#TEST single condition");
     // empty
     cond = LKSQLCompositeCondition.clause;
@@ -77,7 +78,7 @@
     DEBUGLOG(@"%@", cond.toString);
     
     
-    // TEST condition group
+    //MARK: TEST condition group
     // AND, OR
     DEBUGLOG(@"#TEST AND, OR");
     cond = LKSQLCompositeCondition.clause.where
@@ -147,8 +148,58 @@
     .and.lte(@"colC", nil)
     ;
     DEBUGLOG(@"%@", cond.toString);
+    
+    
+    //MARK: TEST SQL commands
+    LKSQLSelect *select = (id)_SQLSelect.from(LKTest.class).where(
+        _SQLWhere.eq(@"MyAge", @"16")
+    ).orderBy(nil).groupBy(nil).limit(0).offset(0);
+    DEBUGLOG(@"## %@", select.toString);
+    
+    LKSQLDelete *delete = (id)_SQLDelete.from(LKTest.class).where(
+        _SQLWhere.eq(@"MyAge", @"16")
+    );
+    DEBUGLOG(@"## %@", delete.toString);
+    
+    // insert mock data
+    [self.mockData saveToDB];
+    [self.mockData saveToDB];
+    [self.mockData saveToDB];
+    [self.mockData saveToDB];
+    [self.mockData saveToDB];
+    
+    // execute select
+    DEBUGLOG(@"DBPath: %@", [LKTest getUsingLKDBHelper].dbPath);
+    DEBUGLOG(@"## RUNNING %@", select.toString);
+    NSArray *res = (id)select.exec();
+    DEBUGLOG(@"## count: %ld", res.count);
+    
+    // execute delete
+    DEBUGLOG(@"## RUNNING %@", delete.toString);
+    delete.exec();
+    DEBUGLOG(@"## count: %ld", [LKTest searchWithWhere:nil].count);
+    
+    
 }
 
+
+
++ (LKTest *)mockData {
+    LKTest* test = [LKTest new];
+    test.name = @"zhan san";
+    test.age = 16;
+    test.url = [NSURL URLWithString:@"http://fake.url.com"];
+    test.blah = @[@"1",@"2",@"3"];
+    test.hoho = @{@"array":test.blah,@"normal":@123456,@"date":[NSDate date]};
+    test.isGirl = YES;
+    test.like   = 'I';
+    test.date   = [NSDate date];
+    test.color  = [UIColor orangeColor];
+    test.score  = [[NSDate date] timeIntervalSince1970];
+    test.data   = [@"hahaha" dataUsingEncoding:NSUTF8StringEncoding];
+
+    return test;
+}
 
 #endif
 @end

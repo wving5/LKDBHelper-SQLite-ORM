@@ -47,9 +47,11 @@
     self.tv = textview;
     [self.window makeKeyAndVisible];
     
+#if ENALBE_LKDBTest == 1
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         [self test];
     });
+#endif
     return YES;
 }
 

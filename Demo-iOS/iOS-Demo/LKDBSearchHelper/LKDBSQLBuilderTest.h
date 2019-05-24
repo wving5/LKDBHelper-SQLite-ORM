@@ -8,7 +8,7 @@
 #import <Foundation/Foundation.h>
 
 // TEST auto-running on `UIApplicationDidFinishLaunchingNotification`
-#define ENALBE_LKDBSQLBuilderTest 1
+#define ENALBE_LKDBSQLBuilderTest 0
 
 @interface LKDBSQLBuilderTest : NSObject
 

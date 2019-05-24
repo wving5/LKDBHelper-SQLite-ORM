@@ -11,7 +11,7 @@
 - (instancetype)init
 {
     if (self = [super init]) {
-        _string = [NSMutableString new];
+        _string = [NSMutableString string];
     }
     return self;
 }

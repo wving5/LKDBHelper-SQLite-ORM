@@ -17,7 +17,7 @@ extern NSString* const LKDB_OP_AND;
 extern NSString* const LKDB_OP_OR;
 
 
-//MARK: Single Condition Builder
+/* Single Condition Builder */
 
 @interface LKSQLCondition : NSObject
 @property (nonatomic, copy) NSString * connector;
